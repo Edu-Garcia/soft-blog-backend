@@ -1,8 +1,8 @@
 {
-  "name": "quickstart-node-typescript-api",
+  "name": "softblog-api",
   "version": "1.0.0",
   "description": "Quickstart NodeJs API com Typescript",
-  "projectPrefix": "quickstart",
+  "projectPrefix": "softblog",
   "main": "index.js",
   "engines": {
     "npm": ">=6.0.0",
@@ -82,6 +82,7 @@
   "dependencies": {
     "axios": "^0.24.0",
     "bcrypt": "^5.0.1",
+    "class-transformer": "^0.5.1",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
@@ -97,6 +98,7 @@
     "reflect-metadata": "^0.1.10",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.1.6",
+    "tsyringe": "^4.7.0",
     "typeorm": "0.2.41",
     "typeorm-seeding": "^1.6.1",
     "winston": "^3.3.3",

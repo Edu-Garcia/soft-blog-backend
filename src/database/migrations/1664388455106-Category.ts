@@ -1,49 +1,44 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class User1664387842928 implements MigrationInterface {
+export class Category1664388455106 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'users',
+        name: 'categories',
         columns: [
           {
             name: 'id',
             type: 'uuid',
             isPrimary: true,
             generationStrategy: 'uuid',
-            default: `uuid_generate_v4()`,
+            default: 'uuid_generate_v4()',
           },
           {
-            name: 'name',
-            type: 'varchar',
-            isNullable: false,
-          },
-          {
-            name: 'email',
-            type: 'varchar',
-            isNullable: false,
-          },
-          {
-            name: 'password',
-            type: 'varchar',
-            isNullable: false,
-          },
-          {
-            name: 'role',
+            name: 'title',
             type: 'varchar',
             isNullable: false,
           },
           {
             name: 'created_at',
-            type: 'timestamp',
+            type: 'timestamp with time zone',
             default: 'now()',
-            isNullable: false,
           },
           {
             name: 'updated_at',
-            type: 'timestamp',
+            type: 'timestamp with time zone',
             default: 'now()',
-            isNullable: false,
+          },
+          {
+            name: 'user_id',
+            type: 'uuid',
+          },
+        ],
+        foreignKeys: [
+          {
+            name: 'fk_categories_user',
+            columnNames: ['user_id'],
+            referencedTableName: 'users',
+            referencedColumnNames: ['id'],
           },
         ],
       })
@@ -51,6 +46,6 @@ export class User1664387842928 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('users');
+    await queryRunner.dropTable('categories');
   }
 }
