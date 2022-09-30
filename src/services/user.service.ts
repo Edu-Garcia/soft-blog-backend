@@ -27,7 +27,7 @@ export class UserService {
     const user = await this.usersRepository.findById(id);
 
     if (!user) {
-      throw new ApiError(StatusCodes.NOT_FOUND, true, 'User not found');
+      throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
     }
 
     return instanceToInstance(user);
@@ -39,7 +39,7 @@ export class UserService {
     const emailExists = await this.usersRepository.findByEmail(email);
 
     if (emailExists) {
-      throw new ApiError(StatusCodes.CONFLICT, true, 'E-mail already exists');
+      throw new ApiError(StatusCodes.CONFLICT, 'E-mail already exists');
     }
 
     const hashedPassword = await hash(password, config.saltWorkFactor);
@@ -52,13 +52,23 @@ export class UserService {
     return newUser;
   }
 
-  public async updateUser(input: IUpdateUserInput): Promise<IUser> {
+  public async updateUser(
+    input: IUpdateUserInput,
+    requesterId: string
+  ): Promise<IUser> {
     const { id, name } = input;
 
     const user = await this.usersRepository.findById(id);
 
     if (!user) {
-      throw new ApiError(StatusCodes.NOT_FOUND, true, 'User not found');
+      throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
+    }
+
+    if (user.id !== requesterId) {
+      throw new ApiError(
+        StatusCodes.UNAUTHORIZED,
+        'Only user can update their information'
+      );
     }
 
     user.name = name || user.name;
@@ -67,11 +77,18 @@ export class UserService {
     return user;
   }
 
-  public async deleteUser(id: string): Promise<void> {
+  public async deleteUser(id: string, requesterId: string): Promise<void> {
     const user = await this.usersRepository.findById(id);
 
     if (!user) {
-      throw new ApiError(StatusCodes.NOT_FOUND, true, 'User not found');
+      throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
+    }
+
+    if (user.id !== requesterId) {
+      throw new ApiError(
+        StatusCodes.UNAUTHORIZED,
+        'Only user can delete their account'
+      );
     }
 
     await this.usersRepository.remove(user);

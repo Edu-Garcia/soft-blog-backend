@@ -51,13 +51,11 @@ const updatePayload = {
   body: object({
     title: string(),
     content: string(),
-    categoryId: string(),
   }).defined(),
 };
 const params = {
   params: object({
     postId: string().defined('postId is required'),
-    userId: string().defined('userId is required'),
   }),
 };
 

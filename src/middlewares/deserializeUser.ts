@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
+import { StatusCodes } from 'http-status-codes';
 import { get } from 'lodash';
+import ApiError from '../utils/apiError.utils';
 import { verifyJwt } from '../utils/jwt.utils';
 
 const deserializeUser = async (
@@ -24,7 +26,7 @@ const deserializeUser = async (
   }
 
   if (expired) {
-    return res.sendStatus(401);
+    throw new ApiError(StatusCodes.UNAUTHORIZED, 'Expired Login Session');
   }
 
   return next();

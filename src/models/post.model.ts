@@ -23,10 +23,9 @@ export interface IUpdatePostInput {
   title?: string;
   content?: string;
   userId: string;
-  categoryId?: string;
 }
 
-export interface ICategoriesRepository {
+export interface IPostsRepository {
   create(data: ICreatePostInput): Promise<IPost>;
   save(post: IPost): Promise<IPost>;
   remove(post: IPost): Promise<void>;

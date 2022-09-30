@@ -38,7 +38,6 @@ const payload = {
 const params = {
   params: object({
     categoryId: string().defined('categoryId is required'),
-    userId: string().defined('userId is required'),
   }),
 };
 

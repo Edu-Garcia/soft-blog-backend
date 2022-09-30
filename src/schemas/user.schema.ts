@@ -54,9 +54,6 @@ const payload = {
       .max(120, 'Name must be less than 120 characters'),
     email: string().email('Invalid e-mail ').defined('E-mail is required'),
     password: string().defined('Password is required'),
-    role: string()
-      .defined('Role is required')
-      .oneOf(['admin', 'user'], 'Permission must be admin or user'),
   }).defined(),
 };
 
