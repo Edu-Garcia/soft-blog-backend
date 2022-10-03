@@ -31,7 +31,9 @@ import { object, string, InferType } from 'yup';
 
 const payload = {
   body: object({
-    title: string().defined('Title is required'),
+    title: string()
+      .max(50, 'Category must be less than 50 characters')
+      .defined('Title is required'),
   }).defined(),
 };
 

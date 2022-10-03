@@ -41,7 +41,9 @@ import { object, string, InferType } from 'yup';
 
 const payload = {
   body: object({
-    title: string().defined('Title is required'),
+    title: string()
+      .max(100, 'Category must be less than 100 characters')
+      .defined('Title is required'),
     content: string().defined('Content is required'),
     categoryId: string().defined('categoryId is required'),
   }).defined(),
@@ -49,7 +51,7 @@ const payload = {
 
 const updatePayload = {
   body: object({
-    title: string(),
+    title: string().max(100, 'Category must be less than 100 characters'),
     content: string(),
   }).defined(),
 };
