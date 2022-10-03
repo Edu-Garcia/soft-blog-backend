@@ -2,8 +2,8 @@ import { Router } from 'express';
 import {
   createUserHandler,
   deleteUserHandler,
-  getUserHandler,
-  getUsersHandler,
+  readUserHandler,
+  readUsersHandler,
   updateUserHandler,
 } from '../../controllers/user.controller';
 import requireUser from '../../middlewares/requireUser';
@@ -13,7 +13,7 @@ import validateResource from '../../middlewares/validateResource';
 import {
   createUserSchema,
   deleteUserSchema,
-  getUserSchema,
+  readUserSchema,
   updateUserSchema,
 } from '../../schemas/user.schema';
 
@@ -158,14 +158,14 @@ const routes = Router();
 
 routes
   .route('/')
-  .get(getUsersHandler)
+  .get(readUsersHandler)
   .post([validateResource(createUserSchema)], createUserHandler);
 
 routes
   .route('/:userId')
   .get(
-    [deserializeUser, requireUser, validateResource(getUserSchema)],
-    getUserHandler
+    [deserializeUser, requireUser, validateResource(readUserSchema)],
+    readUserHandler
   )
   .delete(
     [deserializeUser, requireUser, validateResource(deleteUserSchema)],

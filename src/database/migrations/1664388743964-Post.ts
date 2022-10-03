@@ -48,12 +48,16 @@ export class Post1664388743964 implements MigrationInterface {
             columnNames: ['user_id'],
             referencedTableName: 'users',
             referencedColumnNames: ['id'],
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
           },
           {
             name: 'fk_posts_category',
             columnNames: ['category_id'],
             referencedTableName: 'categories',
             referencedColumnNames: ['id'],
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
           },
         ],
       })

@@ -54,11 +54,11 @@ export const deleteCategorySchema = object({
   ...params,
 });
 
-export const getCategorySchema = object({
+export const readCategorySchema = object({
   ...params,
 });
 
 export type CreateCategoryInput = InferType<typeof createCategorySchema>;
 export type UpdateCategoryInput = InferType<typeof updateCategorySchema>;
-export type ReadCategoryInput = InferType<typeof getCategorySchema>;
+export type ReadCategoryInput = InferType<typeof readCategorySchema>;
 export type DeleteCategoryInput = InferType<typeof deleteCategorySchema>;

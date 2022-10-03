@@ -72,11 +72,11 @@ export const deletePostSchema = object({
   ...params,
 });
 
-export const getPostSchema = object({
+export const readPostSchema = object({
   ...params,
 });
 
 export type CreatePostInput = InferType<typeof createPostSchema>;
 export type UpdatePostInput = InferType<typeof updatePostSchema>;
-export type ReadPostInput = InferType<typeof getPostSchema>;
+export type ReadPostInput = InferType<typeof readPostSchema>;
 export type DeletePostInput = InferType<typeof deletePostSchema>;

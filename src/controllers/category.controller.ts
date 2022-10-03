@@ -8,18 +8,19 @@ import {
   ReadCategoryInput,
   UpdateCategoryInput,
 } from '../schemas/category.schema';
+import { normalizeText } from '../utils/normalize.utils';
 
 import { CategoryService } from '../services/category.service';
 
-export async function getCategoriesHandler(req: Request, res: Response) {
+export async function readCategoriesHandler(req: Request, res: Response) {
   const categoryService = container.resolve(CategoryService);
 
-  const categories = await categoryService.getCategories();
+  const categories = await categoryService.readCategories();
 
   res.status(StatusCodes.OK).json(categories);
 }
 
-export async function getCategoryHandler(
+export async function readCategoryHandler(
   req: Request<ReadCategoryInput['params']>,
   res: Response
 ) {
@@ -28,7 +29,7 @@ export async function getCategoryHandler(
 
   const categoryService = container.resolve(CategoryService);
 
-  const category = await categoryService.getCategory(id);
+  const category = await categoryService.readCategory(id);
 
   res.status(StatusCodes.OK).json(category);
 }
@@ -42,7 +43,10 @@ export async function createCategoryHandler(
 
   const categoryService = container.resolve(CategoryService);
 
-  const category = await categoryService.createCategory({ ...body, userId });
+  const category = await categoryService.createCategory({
+    title: normalizeText(body.title),
+    userId,
+  });
 
   res.status(StatusCodes.CREATED).json(category);
 }
@@ -53,14 +57,14 @@ export async function updateCategoryHandler(
 ) {
   const { body, params } = req;
   const { categoryId: id } = params;
-  const { sub: userId } = res.locals.category;
+  const { sub: userId } = res.locals.user;
 
   const categoryService = container.resolve(CategoryService);
 
   const category = await categoryService.updateCategory({
+    title: normalizeText(body.title),
     id,
     userId,
-    ...body,
   });
 
   res.status(StatusCodes.OK).json(category);
@@ -71,7 +75,7 @@ export async function deleteCategoryHandler(
   res: Response
 ) {
   const { categoryId } = req.params;
-  const { sub: userId } = res.locals.category;
+  const { sub: userId } = res.locals.user;
 
   const categoryService = container.resolve(CategoryService);
 

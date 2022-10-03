@@ -11,15 +11,15 @@ import {
 
 import { PostService } from '../services/post.service';
 
-export async function getPostsHandler(req: Request, res: Response) {
+export async function readPostsHandler(req: Request, res: Response) {
   const postService = container.resolve(PostService);
 
-  const posts = await postService.getPosts();
+  const posts = await postService.readPosts();
 
   res.status(StatusCodes.OK).json(posts);
 }
 
-export async function getPostHandler(
+export async function readPostHandler(
   req: Request<ReadPostInput['params']>,
   res: Response
 ) {
@@ -28,7 +28,7 @@ export async function getPostHandler(
 
   const postService = container.resolve(PostService);
 
-  const post = await postService.getPost(id);
+  const post = await postService.readPost(id);
 
   res.status(StatusCodes.OK).json(post);
 }
@@ -42,7 +42,12 @@ export async function createPostHandler(
 
   const postService = container.resolve(PostService);
 
-  const post = await postService.createPost({ ...body, userId });
+  const post = await postService.createPost({
+    title: body.title.trim(),
+    content: body.content.trim(),
+    categoryId: body.categoryId,
+    userId,
+  });
 
   res.status(StatusCodes.CREATED).json(post);
 }
@@ -53,14 +58,15 @@ export async function updatePostHandler(
 ) {
   const { body, params } = req;
   const { postId: id } = params;
-  const { sub: userId } = res.locals.post;
+  const { sub: userId } = res.locals.user;
 
   const postService = container.resolve(PostService);
 
   const post = await postService.updatePost({
     id,
     userId,
-    ...body,
+    title: body.title.trim() || null,
+    content: body.content.trim() || null,
   });
 
   res.status(StatusCodes.OK).json(post);
@@ -71,7 +77,7 @@ export async function deletePostHandler(
   res: Response
 ) {
   const { postId } = req.params;
-  const { sub: userId } = res.locals.post;
+  const { sub: userId } = res.locals.user;
 
   const postService = container.resolve(PostService);
 

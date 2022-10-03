@@ -22,12 +22,12 @@ export class CategoryService {
     private postsRepository: IPostsRepository
   ) {}
 
-  public async getCategories(): Promise<ICategory[]> {
+  public async readCategories(): Promise<ICategory[]> {
     const categories = this.categoriesRepository.find();
     return instanceToInstance(categories);
   }
 
-  public async getCategory(id: string): Promise<ICategory> {
+  public async readCategory(id: string): Promise<ICategory> {
     const category = await this.categoriesRepository.findById(id);
 
     if (!category) {
@@ -78,6 +78,12 @@ export class CategoryService {
         StatusCodes.UNAUTHORIZED,
         'Only admins can update categories'
       );
+    }
+
+    const categoryExists = await this.categoriesRepository.findByTitle(title);
+
+    if (categoryExists) {
+      throw new ApiError(StatusCodes.CONFLICT, 'Category already exists');
     }
 
     const linkedPosts = await this.postsRepository.findByCategoryId(id);

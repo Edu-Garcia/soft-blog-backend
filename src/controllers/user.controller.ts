@@ -11,15 +11,15 @@ import {
 
 import { UserService } from '../services/user.service';
 
-export async function getUsersHandler(req: Request, res: Response) {
+export async function readUsersHandler(req: Request, res: Response) {
   const userService = container.resolve(UserService);
 
-  const users = await userService.getUsers();
+  const users = await userService.readUsers();
 
   res.status(StatusCodes.OK).json(users);
 }
 
-export async function getUserHandler(
+export async function readUserHandler(
   req: Request<ReadUserInput['params']>,
   res: Response
 ) {
@@ -28,7 +28,7 @@ export async function getUserHandler(
 
   const userService = container.resolve(UserService);
 
-  const user = await userService.getUser(id);
+  const user = await userService.readUser(id);
 
   res.status(StatusCodes.OK).json(user);
 }

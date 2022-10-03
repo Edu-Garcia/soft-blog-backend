@@ -22,12 +22,12 @@ export class PostService {
     private categoriesRepository: ICategoriesRepository
   ) {}
 
-  public async getPosts(): Promise<IPost[]> {
+  public async readPosts(): Promise<IPost[]> {
     const posts = this.postsRepository.find();
     return instanceToInstance(posts);
   }
 
-  public async getPost(id: string): Promise<IPost> {
+  public async readPost(id: string): Promise<IPost> {
     const post = await this.postsRepository.findById(id);
 
     if (!post) {

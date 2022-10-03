@@ -2,8 +2,8 @@ import { Router } from 'express';
 import {
   createCategoryHandler,
   deleteCategoryHandler,
-  getCategoryHandler,
-  getCategoriesHandler,
+  readCategoryHandler,
+  readCategoriesHandler,
   updateCategoryHandler,
 } from '../../controllers/category.controller';
 import requireUser from '../../middlewares/requireUser';
@@ -13,7 +13,7 @@ import validateResource from '../../middlewares/validateResource';
 import {
   createCategorySchema,
   deleteCategorySchema,
-  getCategorySchema,
+  readCategorySchema,
   updateCategorySchema,
 } from '../../schemas/category.schema';
 
@@ -176,7 +176,7 @@ const routes = Router();
 
 routes
   .route('/')
-  .get(getCategoriesHandler)
+  .get(readCategoriesHandler)
   .post(
     [deserializeUser, requireUser, validateResource(createCategorySchema)],
     createCategoryHandler
@@ -184,7 +184,7 @@ routes
 
 routes
   .route('/:categoryId')
-  .get([validateResource(getCategorySchema)], getCategoryHandler)
+  .get([validateResource(readCategorySchema)], readCategoryHandler)
   .delete(
     [deserializeUser, requireUser, validateResource(deleteCategorySchema)],
     deleteCategoryHandler

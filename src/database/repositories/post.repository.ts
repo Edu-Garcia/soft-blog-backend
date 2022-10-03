@@ -38,12 +38,17 @@ export class PostsRepository implements IPostsRepository {
   }
 
   public async find(): Promise<Post[]> {
-    const post = await this.ormRepository.find();
+    const post = await this.ormRepository.find({
+      relations: ['user', 'category'],
+    });
     return post;
   }
 
   public async findById(id: string): Promise<Post | undefined> {
-    const post = await this.ormRepository.findOne({ id });
+    const post = await this.ormRepository.findOne(
+      { id },
+      { relations: ['user', 'category'] }
+    );
     return post;
   }
 

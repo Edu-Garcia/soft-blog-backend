@@ -15,5 +15,3 @@ app.listen(config.port, async () => {
     swaggerDocs(app, config.publicUrl, config.port);
   }
 });
-
-export default app;

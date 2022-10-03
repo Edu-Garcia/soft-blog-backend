@@ -15,6 +15,6 @@ export default class User extends Base implements IUser {
   @Exclude()
   public password: string;
 
-  @Column({ default: 'user' })
+  @Column({ enum: ['admin', 'user'], default: 'user' })
   public role: string = 'user';
 }

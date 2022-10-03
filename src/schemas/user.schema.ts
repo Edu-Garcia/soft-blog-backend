@@ -52,7 +52,7 @@ const payload = {
     name: string()
       .defined('Name is required')
       .max(120, 'Name must be less than 120 characters'),
-    email: string().email('Invalid e-mail ').defined('E-mail is required'),
+    email: string().email('Invalid e-mail').defined('E-mail is required'),
     password: string().defined('Password is required'),
   }).defined(),
 };
@@ -82,11 +82,11 @@ export const deleteUserSchema = object({
   ...params,
 });
 
-export const getUserSchema = object({
+export const readUserSchema = object({
   ...params,
 });
 
 export type CreateUserInput = InferType<typeof createUserSchema>;
 export type UpdateUserInput = InferType<typeof updateUserSchema>;
-export type ReadUserInput = InferType<typeof getUserSchema>;
+export type ReadUserInput = InferType<typeof readUserSchema>;
 export type DeleteUserInput = InferType<typeof deleteUserSchema>;

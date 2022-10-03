@@ -18,12 +18,12 @@ export class UserService {
     private usersRepository: IUsersRepository
   ) {}
 
-  public async getUsers(): Promise<IUser[]> {
+  public async readUsers(): Promise<IUser[]> {
     const users = this.usersRepository.find();
     return instanceToInstance(users);
   }
 
-  public async getUser(id: string): Promise<IUser> {
+  public async readUser(id: string): Promise<IUser> {
     const user = await this.usersRepository.findById(id);
 
     if (!user) {
