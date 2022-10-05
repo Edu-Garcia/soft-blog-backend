@@ -12,6 +12,7 @@ export interface ICreateUserInput {
   name: string;
   email: string;
   password: string;
+  role: string;
 }
 
 export interface IUpdateUserInput {

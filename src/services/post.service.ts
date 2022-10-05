@@ -10,6 +10,7 @@ import {
 import { ICategoriesRepository } from '../models/category.model';
 import { IUsersRepository } from '../models/user.model';
 import ApiError from '../utils/apiError.utils';
+import pick from '../utils/pick.utils';
 
 @injectable()
 export class PostService {
@@ -23,8 +24,19 @@ export class PostService {
   ) {}
 
   public async readPosts(): Promise<IPost[]> {
-    const posts = this.postsRepository.find();
-    return instanceToInstance(posts);
+    const posts = await this.postsRepository.find();
+
+    const formattedPosts = posts.map((post) => {
+      const formattedPost = {
+        ...pick(post, ['id', 'title', 'content', 'created_at']),
+        user: pick(post.user, ['id', 'name', 'email']),
+        category: pick(post.category, ['id', 'title']),
+      };
+
+      return formattedPost;
+    });
+
+    return instanceToInstance(formattedPosts);
   }
 
   public async readPost(id: string): Promise<IPost> {
@@ -34,7 +46,13 @@ export class PostService {
       throw new ApiError(StatusCodes.NOT_FOUND, 'Post not found');
     }
 
-    return instanceToInstance(post);
+    const formatedPost = {
+      ...pick(post, ['id', 'title', 'content', 'created_at']),
+      user: pick(post.user, ['id', 'name', 'email']),
+      category: pick(post.category, ['id', 'title']),
+    };
+
+    return instanceToInstance(formatedPost);
   }
 
   public async createPost(input: ICreatePostInput): Promise<IPost> {

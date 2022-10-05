@@ -16,5 +16,5 @@ export default class User extends Base implements IUser {
   public password: string;
 
   @Column({ enum: ['admin', 'user'], default: 'user' })
-  public role: string = 'user';
+  public role: string;
 }

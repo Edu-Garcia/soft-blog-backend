@@ -10,6 +10,7 @@ import {
   IUsersRepository,
 } from '../models/user.model';
 import ApiError from '../utils/apiError.utils';
+import pick from '../utils/pick.utils';
 
 @injectable()
 export class UserService {
@@ -19,8 +20,15 @@ export class UserService {
   ) {}
 
   public async readUsers(): Promise<IUser[]> {
-    const users = this.usersRepository.find();
-    return instanceToInstance(users);
+    const users = await this.usersRepository.find();
+
+    const formattedUsers = users.map((user) => {
+      const formattedUser = pick(user, ['id', 'name', 'email']);
+
+      return formattedUser;
+    });
+
+    return instanceToInstance(formattedUsers);
   }
 
   public async readUser(id: string): Promise<IUser> {
@@ -30,7 +38,9 @@ export class UserService {
       throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
     }
 
-    return instanceToInstance(user);
+    const formattedUser = pick(user, ['id', 'name', 'email']);
+
+    return instanceToInstance(formattedUser);
   }
 
   public async createUser(input: ICreateUserInput): Promise<IUser> {

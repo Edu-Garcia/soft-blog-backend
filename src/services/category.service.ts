@@ -10,6 +10,7 @@ import {
 import { IUsersRepository } from '../models/user.model';
 import { IPostsRepository } from '../models/post.model';
 import ApiError from '../utils/apiError.utils';
+import pick from '../utils/pick.utils';
 
 @injectable()
 export class CategoryService {
@@ -23,8 +24,18 @@ export class CategoryService {
   ) {}
 
   public async readCategories(): Promise<ICategory[]> {
-    const categories = this.categoriesRepository.find();
-    return instanceToInstance(categories);
+    const categories = await this.categoriesRepository.find();
+
+    const formattedCategories = categories.map((category) => {
+      const formattedCategory = {
+        ...pick(category, ['id', 'title']),
+        user: pick(category.user, ['id', 'name', 'email']),
+      };
+
+      return formattedCategory;
+    });
+
+    return instanceToInstance(formattedCategories);
   }
 
   public async readCategory(id: string): Promise<ICategory> {
@@ -34,7 +45,12 @@ export class CategoryService {
       throw new ApiError(StatusCodes.NOT_FOUND, 'Category not found');
     }
 
-    return instanceToInstance(category);
+    const formattedCategory = {
+      ...pick(category, ['id', 'title']),
+      user: pick(category.user, ['id', 'name', 'email']),
+    };
+
+    return instanceToInstance(formattedCategory);
   }
 
   public async createCategory(input: ICreateCategoryInput): Promise<ICategory> {

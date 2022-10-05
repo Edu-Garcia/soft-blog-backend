@@ -41,7 +41,7 @@ export async function createUserHandler(
 
   const userService = container.resolve(UserService);
 
-  const user = await userService.createUser({ ...body });
+  const user = await userService.createUser({ ...body, role: 'user' });
 
   res.status(StatusCodes.CREATED).json(user);
 }

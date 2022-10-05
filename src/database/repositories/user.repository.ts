@@ -13,11 +13,13 @@ export class UsersRepository implements IUsersRepository {
     name,
     email,
     password,
+    role,
   }: ICreateUserInput): Promise<User> {
     const user = this.ormRepository.create({
       name,
       email,
       password,
+      role,
     });
 
     await this.ormRepository.save(user);
