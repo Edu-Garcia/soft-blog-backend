@@ -19,6 +19,16 @@ export async function readPostsHandler(req: Request, res: Response) {
   res.status(StatusCodes.OK).json(posts);
 }
 
+export async function readPostsByUserHandler(req: Request, res: Response) {
+  const { sub: userId } = res.locals.user;
+
+  const postService = container.resolve(PostService);
+
+  const posts = await postService.readPostsByUser(userId);
+
+  res.status(StatusCodes.OK).json(posts);
+}
+
 export async function readPostHandler(
   req: Request<ReadPostInput['params']>,
   res: Response

@@ -39,6 +39,22 @@ export class PostService {
     return instanceToInstance(formattedPosts);
   }
 
+  public async readPostsByUser(userId: string): Promise<IPost[]> {
+    const posts = await this.postsRepository.findByUserId(userId);
+
+    const formattedPosts = posts.map((post) => {
+      const formattedPost = {
+        ...pick(post, ['id', 'title', 'content', 'created_at']),
+        user: pick(post.user, ['id', 'name', 'email']),
+        category: pick(post.category, ['id', 'title']),
+      };
+
+      return formattedPost;
+    });
+
+    return instanceToInstance(formattedPosts);
+  }
+
   public async readPost(id: string): Promise<IPost> {
     const post = await this.postsRepository.findById(id);
 

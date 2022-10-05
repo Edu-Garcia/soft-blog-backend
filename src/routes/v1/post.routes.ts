@@ -4,6 +4,7 @@ import {
   deletePostHandler,
   readPostHandler,
   readPostsHandler,
+  readPostsByUserHandler,
   updatePostHandler,
 } from '../../controllers/post.controller';
 import requireUser from '../../middlewares/requireUser';
@@ -71,6 +72,20 @@ const routes = Router();
  *           example:
  *             code: 404
  *             message: Category not found
+ * '/api/v1/posts/me':
+ *  get:
+ *     tags:
+ *     - Posts
+ *     summary: Get logged user posts
+ *     responses:
+ *       200:
+ *         description: Success
+ *         content:
+ *          application/json:
+ *           schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/CreatePostInput'
  * '/api/v1/posts/{postId}':
  *  get:
  *     tags:
@@ -172,6 +187,8 @@ routes
     [deserializeUser, requireUser, validateResource(createPostSchema)],
     createPostHandler
   );
+
+routes.route('/me').get([deserializeUser, requireUser], readPostsByUserHandler);
 
 routes
   .route('/:postId')

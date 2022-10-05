@@ -40,6 +40,7 @@ export class PostsRepository implements IPostsRepository {
   public async find(): Promise<Post[]> {
     const post = await this.ormRepository.find({
       relations: ['user', 'category'],
+      order: { created_at: 'ASC' },
     });
     return post;
   }
@@ -54,14 +55,18 @@ export class PostsRepository implements IPostsRepository {
 
   public async findByCategoryId(categoryId: string): Promise<Post[]> {
     const post = await this.ormRepository.find({
-      category: { id: categoryId },
+      relations: ['user', 'category'],
+      order: { created_at: 'ASC' },
+      where: { category: { id: categoryId } },
     });
     return post;
   }
 
   public async findByUserId(userId: string): Promise<Post[]> {
     const post = await this.ormRepository.find({
-      user: { id: userId },
+      relations: ['user', 'category'],
+      order: { created_at: 'ASC' },
+      where: { user: { id: userId } },
     });
     return post;
   }
