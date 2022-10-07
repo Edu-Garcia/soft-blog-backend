@@ -1,8 +1,4 @@
-<p align="center">
-  <img src="https://softdesign.com.br/wp-content/themes/bones/library/images/logotipo.svg" alt="Softdesign logo" />
-</p>
-
-# :rocket: Quickstart NodeJS + Typescript
+# :rocket: SoftBlog Back-end
 
 Esse projeto foi criado utilizando o framework [express]('https://expressjs.com/pt-br/').
 
@@ -18,13 +14,27 @@ Caso não tenha ou esteja desatualizado, navegue até o site do nodeJS e baixe a
 
 Mais informações: [site oficial](https://nodejs.org/en/).
 
+Verifique se você tenha o yarn instalado em sua máquina. Digite no terminal o seguinte comando:
+
+`$ yarn -v`
+
+Caso não tenha, instale usando o comando no terminal `$ npm install -g yarn` e pule para o próximo passo.
+
+Mais informações: [site oficial](https://yarnpkg.com/).
+
 ### :fire: Iniciando o projeto
 
-`$ npm install`
+Clone esse repositório utilizando o comando abaixo no seu terminal:
+
+`$ git clone https://github.com/Edu-Garcia/soft-blog-backend.git`
+
+Após o processo ser concluído no próprio terminal aberto localize a pasta que você acabou de clonar e dentro dela digite:
+
+`$ yarn install`
 
 Quando concluir a instalação das dependências, abra o projeto no seu editor, crie um arquivo `.env` com as mesmas informações do `.env.example` e peça as infomações com alguém da sua equipe para popular as variáveis.
 
-Após realizar essas alterações, digite no seu terminal `$ npm run dev:debug` que permite o debug pelo VSCode ou `$ npm run dev` apenas para executar o projeto e aguarde o seu projeto iniciar. :smile:
+Após realizar essas alterações, digite no seu terminal `$ yarn dev:debug` que permite o debug pelo VSCode ou `$ yarn dev` apenas para executar o projeto e aguarde o seu projeto iniciar. :smile:
 
 ### :star: Configurações principais
 
